@@ -1,5 +1,4 @@
 
-require_relative "../config/environment.rb"
 
 class Contact
 
@@ -17,6 +16,7 @@ class Contact
     
     # Creatting contact table 
     def self.create_table
+        sq
         sql =  <<-SQL
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY,
@@ -27,9 +27,9 @@ class Contact
             )
             SQL
         DB[:conn].execute(sql)
-    end
+    end 
     
-    # dropping the all contacts from table contacts. 
+    # dropping the all contacts from table contact. 
     def self.drop_table
       sql = "DROP TABLE IF EXISTS students"
       DB[:conn].execute(sql)
@@ -92,3 +92,4 @@ class Contact
     end
 
 end 
+Contact.create_table
