@@ -1,4 +1,4 @@
-
+require_relative '../config/environment'
 
 class Contact
 
@@ -16,7 +16,7 @@ class Contact
     
     # Creatting contact table 
     def self.create_table
-        sq
+      
         sql =  <<-SQL
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY,
@@ -90,6 +90,6 @@ class Contact
       sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ?, WHERE id = ?"
       DB[:conn].execute(sql, name, phone_number, address, email, id)
     end
-
-end 
+  end
+end
 Contact.create_table
