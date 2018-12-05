@@ -1,66 +1,59 @@
+# require_relative '../config/environment.rb'
+# require_relative 'contact.rb'
 
 class ContactCli
-#     def Welcome_msg
-#         system('clear')
-#         sleep(1)
-#         puts "Welcome To Our Contact Program!\n".bg_green.black
-#     end
-
-#     def menu
-#         puts "Please, Choose an Option"
-#         puts "Enter 1 To Add A Contact"
-#         puts "Enter 2 To Display All Contact"
-#         puts "Enter 3 To Modify A Contact"
-#         puts "Enter 4 To Delete A Contact"
-#         puts "Enter 5 To Delete All Contacts"
-#         puts "Enter 6 To Exit The Program"
-#     end
-    
-#     def add_contact
-#         puts "Create A New Contact!\n"
-
-#         puts "Enter Fullname:"
-#         fullname = gets.chomp
-#         contact["Fullname"] = fullname
-
-#         puts "Enter Address:"
-#         Address = gets.chomp
-#         contact["Address"] = address
-
-#         puts "Enter E-mail:"
-#         email = gets.chomp
-#         contact["Email"] = email
-
-#         puts "Enter Phone Number:"
-#         phone_number = gets.chomp
-#         contact["Phone Number"] = phone_number
-
-#         Contact.create.new(fullname, phone_number, address, email)
-#     end 
-
-#     # displaying list of contact
-
-#     def display_contacts
-#         puts "Full Name | Phone Number | Birthday | Address | E-mail"
-#         puts"........................................................................"
-#         all_contacts.each.with_index(1).collect do |contact, index|   
-#             puts "#{index}. #{contact.values.join(" | ")}"
-#             puts"...................................................................."
-#         end
-
-#         if all_contacts.empty?
-#             puts "Your repertory is empty!"
-#         end 
+    def welcome_msg
+        system('clear')
+        sleep(1)
+        puts "Welcome To Our Contact Program!\n".green
         
-#         if deleting == true
-#             puts "Please, choose contact line you want to delete!"
-#             return all_contacts
-#         end
+        menu
+        choose_option
+    end
 
-#         display_menu
-#         choose_option(all_contacts)
- 
-#     end    
+    def menu
+        puts "Choose An Option Below:".green
+        puts "Please, Choose an Option".green
+        puts "Enter 1 To Add A Contact".green
+        puts "Enter 2 To Display All Contact".green
+        puts "Enter 3 To Modify A Contact".green
+        puts "Enter 4 To Delete A Contact".green
+        puts "Enter 5 To Delete All Contacts".green
+        puts "Enter 6 To Exit The Program".green
+    end
+    
+    def add_contact
+        system('clear')
+        puts "Create A New Contact!\n"
+
+        puts "Enter Fullname:".green
+        name =gets.chomp
+        # contact["Fullname"] = fullname
+
+        puts "Enter Address:".green
+        address = gets.chomp
+        # contact["Address"] = address
+
+        puts "Enter E-mail:".green
+        email = gets.chomp
+        # contact["Email"] = email
+
+        puts "Enter Phone Number:".green
+        phone_number = gets.chomp
+        # contact["Phone Number"] = phone_number
+
+       v= Contact.create(name:name, phone_number:phone_number, address:address, email:email)
+       puts v.name
+    end 
+
+    def display_contacts
+        # puts "Full Name | Phone Number | Birthday | Address | E-mail"
+        # puts"........................................................................"
+        add_contacts.each.with_index.collect do |contact|   
+            puts "#{contact.values}"
+            # puts"...................................................................."
+        end
+    end    
 
 
 #     def input_to_index(given_input)
@@ -105,27 +98,30 @@ class ContactCli
 #     end 
 # end
     
-# def choose_option(all_contacts)
-#     option = gets.chomp
-#     case option
-#     when "1"
-#         add_contact(all_contacts)    
-#     when "2"
-#         display_contacts(all_contacts)
-#     when "3"
-#         modify_contact(all_contacts)
-#     when "4"
-#         delete_contact(all_contacts)
-#     when "5"
-#         exit_contacts(all_contacts)
-#         save()
-#     else
-#         puts "Your repertory is empty!"
-#         display_menu
-#         choose_option(all_contacts)
-#     end     
-# end
+def choose_option
+    option = gets.chomp
+    case option
+    when "1"
+        add_contact
+    when "2"
+        Contact.all 
+    # when "3"
+    #     modify_contact(all_contacts)
+    # when "4"
+    #     delete_contact(all_contacts)
+    # when "5"
+    #     exit_contacts(all_contacts)
+    #     save()
+    else
+        puts "Your repertory is empty!"
+        
+        # choose_option(all_contacts)
+    end     
+end
+end
 
+ContactCli.new.welcome_msg
+# ContactCli.new.choose_option
 # display_menu
 
 # choose_option(all_contacts)
@@ -166,7 +162,5 @@ class ContactCli
 #             end
 #         end
     
-#     end
-
-end
+#     en
     

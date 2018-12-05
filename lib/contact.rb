@@ -1,11 +1,12 @@
-require_relative '../config/environment'
+# require_relative '../config/environment.rb'
+# require_relative '../lib/contact.rb'
 
 class Contact
 
     attr_accessor :name, :phone_number, :address, :email
     attr_reader :id
 
-    # Initializing 
+    # Initializing the attributes 
     def initialize(id=nil, name, phone_number, address, email)
         @id = id
         @name = name
@@ -40,6 +41,7 @@ class Contact
    def self.drop_row
      sql = "DELETE FROM table_name WHERE id = ?"
       DB[:conn].execute(sql)
+   end
    
 
    # inserting a new row into the database contact
@@ -49,7 +51,7 @@ class Contact
      else
        sql = <<-SQL
          INSERT INTO contacts (name, phone_number, address, email)
-         VALUES (?, ?)
+         VALUES (?, ?, ?, ?)
        SQL
        DB[:conn].execute(sql, name, phone_number, address, email)
        @id = DB[:conn].execute("SELECT last_insert_rowid() FROM contacts")[0][0]
@@ -57,9 +59,10 @@ class Contact
     end
 
 
-    def self.create(name, phone_number, address, email)
-        new_student = Contact.new(name, phone_number, address, email)
-        student.save
+    def self.create(name:, phone_number:, address:, email:)
+        new_contact = new(name, phone_number, address, email)
+        new_contact.save
+        new_contact
     end
 
 
@@ -88,8 +91,6 @@ class Contact
     # updating the database row mapped to the Contact instance.
     def update
       sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ?, WHERE id = ?"
-      DB[:conn].execute(sql, name, phone_number, address, email, id)
+      DB[:conn].execute(sql, self.name, self.phone_number, self.address, self.email, self.id)
     end
   end
-end
-Contact.create_table
