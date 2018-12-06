@@ -1,25 +1,28 @@
-# require_relative '../config/environment.rb'
+ require_relative '../config/environment.rb'
 
 class Menu
     def welcome_msg
-        clear_screen
+        # clear_screen
+        system("clear")
         sleep(1)
         puts "=" * 90
         puts "                               Welcome To Our Contact Program!".green
         puts "=" * 90
         puts ""
-        main_Menu
-        choose_option
+        show_option
     end
+        # main_Menu
+        # choose_option
+    
 
-    def main_Menu
-        puts "What would you like to do?\n"
-        puts "1: Add a new contact".green
-        puts "2: Display contacts".green
-        puts "3: Modify contact".green
-        puts "4: Delete contact".green
-        puts "q: To Exit The Program".green
-    end
+    # def main_Menu
+    #     puts "What would you like to do?\n"
+    #     puts "1: Add a new contact".green
+    #     puts "2: Display contacts".green
+    #     puts "3: Modify contact".green
+    #     puts "4: Delete contact".green
+    #     puts "q: To Exit The Program".green
+    # end
     
     #Add contact in contacts table (OPTION 1)
     def add_contact
@@ -72,8 +75,8 @@ class Menu
        puts "Contact Created successfull!".cyan
     #    sleep(4)
     #    system('clear') 
-       main_Menu
-       choose_option
+    #    main_Menu
+       show_option()
     end 
 
     #diplay all contacts added in contacts table (OPTION 2)
@@ -95,8 +98,8 @@ class Menu
         display_all_contacts 
 
         
-        main_Menu
-        choose_option
+        # main_Menu
+        show_option
     end
 
     #delete all contact from database (OPTION 4)
@@ -106,35 +109,16 @@ class Menu
     end
 
     #clear the screen
-    def clear_screen
-        system('clear')
-        main_Menu
-        choose_option
-    end 
+    # def clear_screen
+    #     system('clear')
+    #     main_Menu
+    #     choose_option
+    # end 
 
-# def modify_contact(all_contacts)
+# def modify_contact(all_contacts
     
-#     display_contacts(all_contacts, true)
-#     input = gets.strip
-#     position_to_replace = input_to_index(input)
-     
-#     all_contacts[position_to_replace] = add_contact(all_contacts, true)
 
-#     display_menu
-#     choose_option(all_contacts)
-# end
 
-# def delete_contact(all_contacts)
-#     display_contacts(all_contacts, true)
-    
-#     input = gets.strip
-#     position = input_to_index(input)
-#     all_contacts.delete_at(position)
-#     puts "You have successfully deleted the contact in line #{position +1}"
-#     display_menu
-#     choose_option(all_contacts)
-# end
-  
 # def exit_contacts(all_contacts)
 #     puts "Are you sure you want to exit contacts?"
 #     puts "enter 'y' if yes or 'n' if no"
@@ -150,30 +134,37 @@ class Menu
 #     end 
 # end
     
-def choose_option
-    option = gets.chomp
-    case option
-    when "1"
-        add_contact
-    when "2"
-        display_all_contacts 
-     when "3"
-        delete_a_contact
-    when "4"
-        delete_all_contacts
-    # when "5"
-    #     exit_contacts(all_contacts)
-    #     save()
-    else
-        puts "Entry #{option} is not exist".
+    def show_option
+        puts "What would you like to do?\n"
+            puts "1: Add a new contact".green
+            puts "2: Display contacts".green
+            puts "3: Modify contact".green
+            puts "4: Delete contact".green
+            puts "q: To Exit The Program".green
+
+        option = gets.chomp
+        case option
+        when "1"
+            add_contact
+        when "2"
+            display_all_contacts 
+         when "3"
+            delete_a_contact
+        when "4"
+            delete_all_contacts
+        when "5"
+            modify_a_contact
+        when
+            exit_contacts
+            save()
+        else
+            puts "Entry #{option} is not exist".
     #    return main_Menu
-        choose_option
-    end     
-  end
-end
-Menu.new.welcome_msg
-
-
+        show_option
+        end     
+    end
+ end
+# Menu.new
 
 
 
