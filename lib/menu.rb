@@ -43,19 +43,14 @@ class Menu
         phone_number = gets.chomp
         # contact["Phone Number"] = phone_number
 
-       v= Contact.create(name:name, phone_number:phone_number, address:address, email:email)
-       puts v.name
     end 
 
-    def display_contacts
-        # puts "Full Name | Phone Number | Birthday | Address | E-mail"
-        # puts"........................................................................"
-        add_contacts.each.with_index.collect do |contact|   
-            puts "#{contact.values}"
-            # puts"...................................................................."
-        end
-    end    
-
+     def display_all_contacts 
+        Contact.all.each do |contact| 
+           puts  "#{contact.join ", "} "
+        end        
+    end     
+    
 
 #     def input_to_index(given_input)
 #     given_input.to_i - 1
@@ -105,7 +100,7 @@ def choose_option
     when "1"
         add_contact
     when "2"
-        Contact.all 
+        display_all_contacts 
     # when "3"
     #     modify_contact(all_contacts)
     # when "4"
