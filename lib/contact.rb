@@ -93,4 +93,4 @@ class Contact
       sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ?, WHERE id = ?"
       DB[:conn].execute(sql, self.name, self.phone_number, self.address, self.email, self.id)
     end
-  end
+end

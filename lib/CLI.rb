@@ -22,45 +22,52 @@ class ContactCli
         puts "Enter 6 To Exit The Program".green
     end
     
+    #Add contact in contacts table
     def add_contact
         system('clear')
         puts "Create A New Contact!\n"
 
         puts "Enter Fullname:".green
-        name =gets.chomp
-        # contact["Fullname"] = fullname
-
+        name = gets.chomp
+        
         puts "Enter Address:".green
         address = gets.chomp
-        # contact["Address"] = address
-
+       
         puts "Enter E-mail:".green
         email = gets.chomp
-        # contact["Email"] = email
-
+      
         puts "Enter Phone Number:".green
         phone_number = gets.chomp
-        # contact["Phone Number"] = phone_number
-
-       v= Contact.create(name:name, phone_number:phone_number, address:address, email:email)
-       puts v.name
+       
+        Contact.create(name:name, phone_number:phone_number, address:address, email:email)
+   
+       menu
+       choose_option
     end 
 
-    def display_contacts
-        # puts "Full Name | Phone Number | Birthday | Address | E-mail"
-        # puts"........................................................................"
-        add_contacts.each.with_index.collect do |contact|   
-            puts "#{contact.values}"
-            # puts"...................................................................."
-        end
+    #diplay all contacts added in contacts table
+    def display_all_contacts
+        Contact.all.each do |contact|
+           puts  "#{contact.join ", "} "
+        end       
     end    
+    
+    # delete a choosen contact from contact table
 
+    def delete_a_contact
+        display_all_contacts
 
-#     def input_to_index(given_input)
-#     given_input.to_i - 1
-# end
+#     
+#     all_contacts.delete_at(position)
+#     puts "You have successfully deleted the contact in line #{position +1}"
+#     display_menu
 
-# def modify_contact(all_contacts)
+        id = gets.strip
+        if id.include?(Contact.all.to_s)
+           Contact.drop_row
+        end
+
+    end
     
 #     display_contacts(all_contacts, true)
 #     input = gets.strip
@@ -104,9 +111,9 @@ def choose_option
     when "1"
         add_contact
     when "2"
-        Contact.all 
-    # when "3"
-    #     modify_contact(all_contacts)
+       display_all_contacts
+    when "3"
+        delete_a_contact
     # when "4"
     #     delete_contact(all_contacts)
     # when "5"
