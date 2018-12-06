@@ -1,8 +1,8 @@
-require_relative '../config/environment.rb'
+# require_relative '../config/environment.rb'
 
 class Menu
     def welcome_msg
-        system('clear')
+        clear_screen
         sleep(1)
         puts "=" * 90
         puts "                               Welcome To Our Contact Program!".green
@@ -13,9 +13,7 @@ class Menu
     end
 
     def main_Menu
-        puts "What would you like to do?"
-        puts ""
-        puts "Please, Choose an Option".green
+        puts "What would you like to do?\n"
         puts "1: Add a new contact".green
         puts "2: Display contacts".green
         puts "3: Modify contact".green
@@ -23,38 +21,96 @@ class Menu
         puts "q: To Exit The Program".green
     end
     
+    #Add contact in contacts table (OPTION 1)
     def add_contact
         system('clear')
         puts "Create A New Contact!\n"
 
         puts "Enter Fullname:".green
         name =gets.chomp
-        # contact["Fullname"] = fullname
-
+        if name.empty? 
+            puts "Name is mandatory.\nYou must enter a name to continue!".red
+            sleep(2)
+            puts "Enter a Valid name"
+            name = gets.chomp
+        end
+      
         puts "Enter Address:".green
         address = gets.chomp
-        # contact["Address"] = address
-
+        if address.empty? 
+            puts "Address is mandatory.\nYou must enter a Address to continue!".red
+            sleep(2)
+            puts "Enter a Valid Address"
+            address = gets.chomp 
+        end
+       
         puts "Enter E-mail:".green
         email = gets.chomp
-        # contact["Email"] = email
-
+        if email.empty? 
+            puts "Email is mandatory.\nYou must enter a Email to continue!".red
+            sleep(2)
+            puts "Enter a Valid Email"
+            email = gets.chomp
+        end
+       
         puts "Enter Phone Number:".green
         phone_number = gets.chomp
-        # contact["Phone Number"] = phone_number
+        if phone_number.empty? 
+            puts "Phone Number is mandatory.\nYou must enter a Phone Number to continue!".red
+            sleep(2)
+            puts "Enter a Valid Phone Number"
+            phone_number = gets.chomp
+        end
 
+        if Contact.create_table == true
+         Contact.create(name:name, phone_number:phone_number, address:address, email:email) 
+        else
+            Contact.create_table
+            Contact.create(name:name, phone_number:phone_number, address:address, email:email) 
+        end
+        
+       puts "Contact Created successfull!".cyan
+    #    sleep(4)
+    #    system('clear') 
+       main_Menu
+       choose_option
     end 
 
+    #diplay all contacts added in contacts table (OPTION 2)
      def display_all_contacts 
-        Contact.all.each do |contact| 
+        Contact.all.each do |contact|
            puts  "#{contact.join ", "} "
         end        
     end     
     
+    # delete a choosen contact from contact table (OPTION 3)
+    def delete_a_contact 
+        display_all_contacts 
 
-#     def input_to_index(given_input)
-#     given_input.to_i - 1
-# end
+        puts "\n Enter the id contact you want to delete!".green
+        input_id= gets.chomp.to_i
+        Contact.drop_row input_id if input_id == Contact.all[0][0]
+
+        puts "Contact id #{input_id} has been deleted!\nBelow are your contact now:\n".cyan
+        display_all_contacts 
+
+        
+        main_Menu
+        choose_option
+    end
+
+    #delete all contact from database (OPTION 4)
+    def delete_all_contacts
+        Contact.drop_table
+        puts "Your contact has been emptied!"
+    end
+
+    #clear the screen
+    def clear_screen
+        system('clear')
+        main_Menu
+        choose_option
+    end 
 
 # def modify_contact(all_contacts)
     
@@ -101,62 +157,24 @@ def choose_option
         add_contact
     when "2"
         display_all_contacts 
-    # when "3"
-    #     modify_contact(all_contacts)
-    # when "4"
-    #     delete_contact(all_contacts)
+     when "3"
+        delete_a_contact
+    when "4"
+        delete_all_contacts
     # when "5"
     #     exit_contacts(all_contacts)
     #     save()
     else
-        puts "Your repertory is empty!"
-        
-        # choose_option(all_contacts)
+        puts "Entry #{option} is not exist".
+    #    return main_Menu
+        choose_option
     end     
+  end
 end
-end
-
 Menu.new.welcome_msg
-# ContactCli.new.choose_option
-# display_menu
-
-# choose_option(all_contacts)
 
 
 
 
-#     def input_options
 
-#        input = nil
-
-#         until input =='6'
-            
-#             input =gets.strip.brown
-#             # if input == nil && input != 'list 1' && input != 'list 2' && input != 'exit'
-#             #     puts "We have no currency for this country.".red
-#             # else 
-            
-        
-#             case input
-#             when "1"
-#                 #add_contact
-#             when "2"
-#                 # display_contact
-#             when "3"
-#                 # modify_contact
-#             when "4"
-#                 # ####
-#             when '5'
-#                 ######
-#                     # puts "\nThis our list of our countries for now:\n".green 
-#                     # Country_capitals.create_2
-#                     # Country_capitals.list_2
-#             when '6'
-#                 exit
-#             else
-#                 puts "Entry #{input} is not exist".red
-#             end
-#         end
-    
-#     end
     

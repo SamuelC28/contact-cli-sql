@@ -32,15 +32,15 @@ class Contact
     
     # dropping the all contacts from table contact. 
     def self.drop_table
-      sql = "DROP TABLE IF EXISTS students"
+      sql = "DROP TABLE IF EXISTS contacts"
       DB[:conn].execute(sql)
     end
 
 
    #dropping a contact / row from table contacts
-   def self.drop_row
-     sql = "DELETE FROM table_name WHERE id = ?"
-      DB[:conn].execute(sql)
+   def self.drop_row id 
+     sql = "DELETE FROM contacts WHERE id = ?"
+      DB[:conn].execute(sql, id)
    end
    
 
