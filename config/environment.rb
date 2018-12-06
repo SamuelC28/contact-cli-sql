@@ -7,5 +7,5 @@ require 'bundler'
 require_relative '../lib/contact.rb'
 require_relative '../lib/colors.rb'
 require_relative '../lib/cli.rb'
-
+require_relative '../lib/menu.rb'
 

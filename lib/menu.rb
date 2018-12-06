@@ -1,73 +1,67 @@
 require_relative '../config/environment.rb'
 
-<<<<<<< HEAD
-class ContactCli
+class Menu
     def welcome_msg
         system('clear')
         sleep(1)
-        puts "Welcome To Our Contact Program!\n".green
-        
-        menu
+        puts "=" * 90
+        puts "                               Welcome To Our Contact Program!".green
+        puts "=" * 90
+        puts ""
+        main_Menu
         choose_option
     end
 
-    def menu
-        puts "Choose An Option Below:".green
+    def main_Menu
+        puts "What would you like to do?"
+        puts ""
         puts "Please, Choose an Option".green
-        puts "Enter 1 To Add A Contact".green
-        puts "Enter 2 To Display All Contact".green
-        puts "Enter 3 To Modify A Contact".green
-        puts "Enter 4 To Delete A Contact".green
-        puts "Enter 5 To Delete All Contacts".green
-        puts "Enter 6 To Exit The Program".green
+        puts "1: Add a new contact".green
+        puts "2: Display contacts".green
+        puts "3: Modify contact".green
+        puts "4: Delete contact".green
+        puts "q: To Exit The Program".green
     end
     
-    #Add contact in contacts table
     def add_contact
         system('clear')
         puts "Create A New Contact!\n"
 
         puts "Enter Fullname:".green
-        name = gets.chomp
-        
+        name =gets.chomp
+        # contact["Fullname"] = fullname
+
         puts "Enter Address:".green
         address = gets.chomp
-       
+        # contact["Address"] = address
+
         puts "Enter E-mail:".green
         email = gets.chomp
-      
+        # contact["Email"] = email
+
         puts "Enter Phone Number:".green
         phone_number = gets.chomp
-       
-        Contact.create(name:name, phone_number:phone_number, address:address, email:email)
-   
-       menu
-       choose_option
+        # contact["Phone Number"] = phone_number
+
+       v= Contact.create(name:name, phone_number:phone_number, address:address, email:email)
+       puts v.name
     end 
 
-    #diplay all contacts added in contacts table
-    def display_all_contacts
-        Contact.all.each do |contact|
-           puts  "#{contact.join ", "} "
-        end       
-    end    
-    
-    # delete a choosen contact from contact table
-
-    def delete_a_contact
-        display_all_contacts
-
-#     
-#     all_contacts.delete_at(position)
-#     puts "You have successfully deleted the contact in line #{position +1}"
-#     display_menu
-
-        id = gets.strip
-        if id.include?(Contact.all.to_s)
-           Contact.drop_row
+    def display_contacts
+        # puts "Full Name | Phone Number | Birthday | Address | E-mail"
+        # puts"........................................................................"
+        add_contacts.each.with_index.collect do |contact|   
+            puts "#{contact.values}"
+            # puts"...................................................................."
         end
+    end    
 
-    end
+
+#     def input_to_index(given_input)
+#     given_input.to_i - 1
+# end
+
+# def modify_contact(all_contacts)
     
 #     display_contacts(all_contacts, true)
 #     input = gets.strip
@@ -111,9 +105,9 @@ def choose_option
     when "1"
         add_contact
     when "2"
-       display_all_contacts
-    when "3"
-        delete_a_contact
+        Contact.all 
+    # when "3"
+    #     modify_contact(all_contacts)
     # when "4"
     #     delete_contact(all_contacts)
     # when "5"
@@ -127,7 +121,7 @@ def choose_option
 end
 end
 
-ContactCli.new.welcome_msg
+Menu.new.welcome_msg
 # ContactCli.new.choose_option
 # display_menu
 
@@ -169,8 +163,5 @@ ContactCli.new.welcome_msg
 #             end
 #         end
     
-#     en
+#     end
     
-=======
-Menu.main_Menu
->>>>>>> 7df9e44352ce992b0d2cb85195f091e3b43f7e46
