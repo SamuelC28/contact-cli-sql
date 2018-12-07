@@ -6,11 +6,7 @@ class Contact
 
     # Initializing the attributes 
     def initialize(id=nil, name, phone_number, address, email)
-        @id = id
-        @name = name
-        @phone_number = phone_number
-        @address = address
-        @email = email
+      @email, @phone_number, @address, @name, @id = id, name, address, phone_number, email
     end
     
     # Creates a contacts table 
@@ -39,7 +35,13 @@ class Contact
      sql = "DELETE FROM contacts WHERE id = ?"
       DB[:conn].execute(sql, id)
    end
-   
+
+   #deleting all data in contacts table, but not the table
+   def delete_only_data
+      sql = "DELETE FROM contacts"
+      DB[:conn].execute(sql)
+   end
+  
 
    # inserting a new row into the database contact
    def save

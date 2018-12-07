@@ -67,35 +67,45 @@ class Menu
     #    main_Menu
     end 
 
-    #diplay all contacts added in contacts table (OPTION 2)
-     def display_all_contacts 
+    #diplay all contacts added in contacts table (OPTION 2a)
+     def display_all_contacts_without_order
         system("clear")
-        #  return "dddd" if Contact.all.empty?
-       
         Contact.all.each do |contact|
-           puts  "#{contact.join ", "}\n"
+           puts "hello"
+        #    puts "#{contact.join ", "}\n"
         end 
     end     
 
-    def display_all_contacts_alpha_order 
-        system("clear")
-        #  return "dddd" if Contact.all.empty?
-       
-        Contact.alphabetic_order.each do |contact|
-           puts  "#{contact.join ", "}\n"
-        end 
-    end     
+    #diplay all contacts added in contacts table (OPTION 2b)
+    # def display_all_contacts_alpha_order 
+    #     system("clear")
+    #     Contact.alphabetic_order.each do |contact|
+    #        puts  "#{contact.join ", "}\n"
+    #     end 
+    # end     
     
     # delete a choosen contact from contact table (OPTION 3)
     def delete_a_contact 
-        display_all_contacts 
+        display_all_contacts_without_order
         puts "\n Enter the id contact you want to delete!".green
-        
+
         input_id= gets.chomp.to_i
+        puts "jjjjjjj"
         Contact.drop_row input_id if input_id == Contact.all[0][0]
         puts "Contact id #{input_id} has been deleted!\nBelow are your contact now:\n".cyan
-        display_all_contacts 
+        display_all_contacts_without_order
     end
+
+    # delete all the rows in Contact table
+    def delete_all_data_from_table
+        display_all_contacts_without_order
+        Contact.delete_only_data
+        puts "Your contacts has been emptied from the database!"
+        sleep(3)
+        system('clear')
+        show_option
+    end
+
 
     #delete all contact from database (OPTION 4)
     def delete_all_contacts
@@ -154,10 +164,9 @@ class Menu
         if input == "n" || input == "N"
             show_option
         else
-            at_exit do 
-                exit
-            end 
-            puts "bye!!!"
+            system('clear')
+            puts "Bye!!!"
+            exit
         end 
     end
 
@@ -183,9 +192,11 @@ class Menu
         puts "1: Add a new contact".green
         puts "2: Display contacts".green
         puts "3: Delete A contact".green
-        puts "4: Delete all contacts".green
+        puts "4: Crash Your App".green
         puts "5: Modify A contact".green
         puts "6: Type A Name to Find A Contact!".green 
+        puts "7: delete All Your Contacts!".green
+        
         puts "q: To Exit The Program".green
 
         option = gets.chomp.to_s
@@ -195,7 +206,14 @@ class Menu
             system('clear')
             show_option
         when "2"
-            display_all_contacts_alpha_order 
+            display_all_contacts_without_order
+            # puts "enter 'A'for alphabetic order.\nOr 'B' for any Order!"
+            # diplay_option = gets.chomp
+            # if diplay_option == "A"
+            # display_all_contacts_alpha_order
+            # else
+            # display_all_contacts_without_order
+            # end
             # display_all_contacts 
             back_to_menu
             # sleep(3)
@@ -210,6 +228,8 @@ class Menu
             modify_a_contact
         when "6"
             find_a_contact
+        when "7"
+            delete_all_data_from_table
         when "q"
             exit_contacts
         else
