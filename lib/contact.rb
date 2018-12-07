@@ -1,5 +1,3 @@
-# require_relative '../config/environment.rb'
-# require_relative '../lib/contact.rb'
 
 class Contact
 
@@ -15,9 +13,8 @@ class Contact
         @email = email
     end
     
-    # Creatting contact table 
+    # Creates a contacts table 
     def self.create_table
-      
         sql =  <<-SQL
         CREATE TABLE IF NOT EXISTS contacts (
             id INTEGER PRIMARY KEY,
@@ -58,7 +55,7 @@ class Contact
      end
     end
 
-
+    #creates new contact and save them
     def self.create(name:, phone_number:, address:, email:)
         new_contact = new(name, phone_number, address, email)
         new_contact.save
@@ -66,12 +63,17 @@ class Contact
     end
 
 
-    # diplay all contacts in the table contacts
+    # displays all contacts in the table contacts
     def self.all
         sql = "SELECT * FROM contacts"
         DB[:conn].execute(sql)
     end
 
+    # displays all contacts in the table contacts in alpha order by
+    def self.alphabetic_order
+      sql = "SELECT * FROM contacts ORDER BY name ASC"
+      DB[:conn].execute(sql)
+    end
 
     def self.new_from_db row
       new(*row)
@@ -79,7 +81,7 @@ class Contact
 
     def self.find_by_name name
       sql = <<-SQL
-        SELECT * FROM students
+        SELECT * FROM contacts
         WHERE name = ?
       SQL
 
@@ -90,7 +92,7 @@ class Contact
     
     # updating the database row mapped to the Contact instance.
     def update
-      sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ?, WHERE id = ?"
-      DB[:conn].execute(sql, self.name, self.phone_number, self.address, self.email, self.id)
+      sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ? WHERE id = ?"
+      DB[:conn].execute(sql, name, phone_number, address, email, id)
     end
 end
