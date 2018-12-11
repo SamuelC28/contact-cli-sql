@@ -6,7 +6,7 @@ class Contact
 
     # Initializing the attributes 
     def initialize(id=nil, name, phone_number, address, email)
-      @email, @phone_number, @address, @name, @id = id, name, address, phone_number, email
+      @email, @phone_number, @address, @name, @id = email, phone_number, address, name, id
     end
     
     # Creates a contacts table 
@@ -33,11 +33,11 @@ class Contact
    #dropping a contact / row from table contacts
    def self.drop_row id 
      sql = "DELETE FROM contacts WHERE id = ?"
-      DB[:conn].execute(sql, id)
+      DB[:conn].execute(sql,id)
    end
 
    #deleting all data in contacts table, but not the table
-   def delete_only_data
+   def self.delete_only_data
       sql = "DELETE FROM contacts"
       DB[:conn].execute(sql)
    end
@@ -96,5 +96,29 @@ class Contact
     def update
       sql = "UPDATE contacts SET name = ?, phone_number = ?, address = ?, email = ? WHERE id = ?"
       DB[:conn].execute(sql, name, phone_number, address, email, id)
+    end
+    
+    #alter phone number only
+    def self.update_phone_number id, phone_number
+      sql ="UPDATE contacts SET phone_number = ? WHERE id = ?"
+       DB[:conn].execute(sql,phone_number,id)
+    end
+    
+    #alter name only
+    def self.update_name id, name
+      sql ="UPDATE contacts SET name = ? WHERE id = ?"
+       DB[:conn].execute(sql,name,id)
+    end
+
+    #alter email only
+    def self.update_email id, email
+      sql ="UPDATE contacts SET email = ? WHERE id = ?"
+       DB[:conn].execute(sql,email,id)
+    end
+
+    #alter address only
+    def self.update_address id, address
+      sql ="UPDATE contacts SET address = ? WHERE id = ?"
+       DB[:conn].execute(sql,address,id)
     end
 end
