@@ -23,7 +23,7 @@ class All_messages
             elsif delete_option == 'b' || delete_option =='B'
                 Cli.new.delete_all_data_from_table
             else
-                puts "Entry '#{delete_option}' Is Not An Option!".red
+                puts "Entry '#{delete_option}' Is Not A valid Option!".red
                 All_messages.new.message_restriction
                 delete_options
             end  
@@ -52,5 +52,7 @@ class All_messages
     def pause_and_clear_screen
         sleep(1.50)
         system('clear')
-    end            
+    end    
+    
+   
 end

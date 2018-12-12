@@ -14,20 +14,42 @@ class Menu
             sleep(1) 
             Cli.new.back_to_menu
             show_option 
+           
         when "3"
-           All_messages.new.modify_options
+            empty_contact_message
+            
+            All_messages.new.modify_options
+            
         when "4"
+            empty_contact_message
+            
             Cli.new.crash_app
+                
         when "5"
+            empty_contact_message
             All_messages.new.delete_options
+        
         when '6'
+            empty_contact_message
             Cli.new.find_a_contact
+                
         when 'q'
              Cli.new.exit_contacts
         else 
             All_messages.new.message_restriction
             show_option
         end   
+    end
+
+    def empty_contact_message
+        if Contact.all.empty?
+            system ('clear')
+            puts "You Have No Registered Contacts In Your Repertory.".cyan 
+            sleep(1)
+            Cli.new.back_to_menu
+            show_option
+        # else
+        end
     end
 end
 
