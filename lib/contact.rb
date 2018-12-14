@@ -30,7 +30,7 @@ class Contact
     end
 
 
-   #dropping a contact / row from table contacts
+   #dropping a contact / row from table cont
    def self.drop_row id 
      sql = "DELETE FROM contacts WHERE id = ?"
       DB[:conn].execute(sql,id)
@@ -43,7 +43,7 @@ class Contact
    end
   
 
-   # inserting a new row into the database contact
+  #  inserting a new row into the database contact
    def save
      if self.id
        self.update
@@ -54,11 +54,11 @@ class Contact
        SQL
        DB[:conn].execute(sql, name, phone_number, address, email)
        @id = DB[:conn].execute("SELECT last_insert_rowid() FROM contacts")[0][0]
-     end
     end
+  end
 
     #creates new contact and save them
-    def self.create(name:, phone_number:, address:, email:)
+    def self.create(name, phone_number, address, email)
         new_contact = new(name, phone_number, address, email)
         new_contact.save
         new_contact

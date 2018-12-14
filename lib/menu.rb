@@ -9,30 +9,31 @@ class Menu
             system('clear')
             show_option
         when "2"
-            Cli.new.display_all_contacts_without_order
-            puts "You Have No Registered Contacts In Your Repertory.".cyan if Contact.all.empty?
-            sleep(1) 
-            Cli.new.back_to_menu
-            show_option 
-           
+            # if 
+            is_exist = false
+            if Contact.create_table
+                Cli.new.display_all_contacts_without_order
+                show_option
+                is_exist = true
+            else #!is_exist
+                !is_exist
+                system('clear')
+                puts "Your program was crashed.\nGo to menu to rebuild it!\n".upcase.red
+                # return show_option
+            end
+            
+            
         when "3"
-            empty_contact_message
-            
-            All_messages.new.modify_options
-            
+             All_messages.new.modify_options
         when "4"
             empty_contact_message
-            
             Cli.new.crash_app
-                
         when "5"
             empty_contact_message
             All_messages.new.delete_options
-        
         when '6'
             empty_contact_message
             Cli.new.find_a_contact
-                
         when 'q'
              Cli.new.exit_contacts
         else 

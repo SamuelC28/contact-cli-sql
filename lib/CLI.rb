@@ -101,24 +101,20 @@ class Cli
              puts "Your Has Been Crashed!".cyan
              sleep(2)
              system('clear')
-             show_option
+             Menu.new.show_option
         else
             Menu.new.show_option
         end
     end
 
-    #clear the screen
-    # def clear_screen
-    #     system('clear')
-    #     main_Menu
-    #     choose_option
-    # end 
 
    # modifies a contact (OPTION 3a)
     def modify_a_contact
         display_all_contacts_without_order
         puts "Please, Enter the contact id you want to modify!".green
-        modify_id =  gets.chomp.to_i
+        modify_id =  gets.to_i
+        id_exist = false
+
         Contact.all.each do |contact_column|
             if modify_id == contact_column.first
                 
@@ -137,10 +133,10 @@ class Cli
                 end
                
                 puts "Re-enter/EnterEnter A New Phone Number".green
-                phone_number = gets.chomp.to_i
+                phone_number = gets.chomp
                 until !phone_number.empty? 
                     Cli.new.message_restriction
-                    phone_number = gets.chomp>to_i
+                    phone_number = gets.chomp
                 end
                 
                 puts "Re-enter/Enter A New Address".green 
@@ -154,8 +150,12 @@ class Cli
                 v.update
                 system('clear')
                 puts "Contact id #{modify_id} has been modified!\nBelow is your modified contact:1".cyan
-                puts "\nYour new contact is:\n\Full Name: #{v.name}, Phone: #{v.phone_number}, Address #{v.address}, Email: #{v.email}".magenta
+                puts "\nYour new contact is:\n\Full Name: #{v.name}, Phone: #{v.phone_number}, Address: #{v.address}, Email: #{v.email}".magenta
+                id_exist = true
             end
+        end
+        if !id_exist
+           puts "'#{modify_id}' is not in your contact!".red 
         end
         Menu.new.show_option
     end
@@ -163,7 +163,7 @@ class Cli
      #modify only phone number
      def alter_phone_number
         display_all_contacts_without_order
-        puts "Enter the id contact you want to modidy".green
+        puts "Enter the id contact you want to modify".green
        input_id = gets.chomp.to_i
 
         Contact.all.each do |contact_column|
@@ -241,7 +241,6 @@ class Cli
         is_found = false
 
         Contact.all.each do |contact_column|
-           
             if input_name == contact_column[1]
                 puts "Full Name: #{contact_column[1]}, Phone Number: #{contact_column[2]}, Address: #{contact_column[3]}, Email: #{contact_column[4]}\n\n"
                 Menu.new.show_option
