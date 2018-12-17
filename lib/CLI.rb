@@ -42,12 +42,12 @@ class Cli
             puts "Enter a Valid Phone Number"
             phone_number = gets.chomp
         end
-
+        
         if Contact.create_table == true
-            Contact.create(name:name, phone_number:phone_number, address:address, email:email) 
+            Contact.create(name, phone_number, address, email) 
         else
             Contact.create_table
-            Contact.create(name:name, phone_number:phone_number, address:address, email:email) 
+            Contact.create(name, phone_number, address, email) 
         end
        
        puts "Contact Created successfull!".cyan

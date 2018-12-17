@@ -9,17 +9,17 @@ class Menu
             system('clear')
             show_option
         when "2"
-            # if 
-            is_exist = false
-            if Contact.create_table
+            
+            # is_exist = false
+            if Contact.create_table == true && !Contact.all.empty?
                 Cli.new.display_all_contacts_without_order
                 show_option
                 is_exist = true
             else #!is_exist
-                !is_exist
+                # !is_exist
                 system('clear')
-                puts "Your program was crashed.\nGo to menu to rebuild it!\n".upcase.red
-                # return show_option
+                empty_contact_message
+                back_to_menu
             end
             
             
