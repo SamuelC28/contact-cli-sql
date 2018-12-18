@@ -1,4 +1,5 @@
 
+
 class Menu
     def show_option
         puts "What would you like to do?\n1: Add a new contact\n2: Display contacts\n3: Modification Option\n4: Crash Your App\n5: Delete A Options\n6: Search A Contact\nq: To Exit The Program".green
@@ -10,7 +11,6 @@ class Menu
             show_option
         when "2"
             if Contact.create_table == true || !Contact.all.empty?
-                Table.new.table_top_row
                 Cli.new.display_all_contacts_without_order
                 Cli.new.back_to_menu_or_exit
             else
@@ -45,6 +45,9 @@ class Menu
         end
     end
 end
+
+
+
 
 
 

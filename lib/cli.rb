@@ -42,7 +42,7 @@ class Cli
             puts "Enter a Valid Phone Number"
             phone_number = gets.chomp
         end
-        
+
         if Contact.create_table == true
             Contact.create(name, phone_number, address, email) 
         else
@@ -58,10 +58,12 @@ class Cli
      def display_all_contacts_without_order
         sleep(1)
         system("clear") 
+        puts "|  ID    |    FULL NAME    |   PHONE NUMBER   |        ADDRESS        |         EMAIL         |".cyan
+        puts "-" *95
         Contact.all.each do |contact|
-           puts "#{contact.join ", "}\n"
+           puts "|   #{contact.join "    |    "}  |\n"
+           puts "-" *95
         end
-        sleep(1)
     end     
     
     #diplay all contacts added in contacts table (OPTION 2b)
@@ -76,32 +78,37 @@ class Cli
     def delete_a_contact 
         display_all_contacts_without_order
         puts "\n Enter the id contact you want to delete!".green
-
-        input_id= gets.chomp.to_i
-        Contact.all.each do |contact_column|
-             Contact.drop_row input_id if contact_column[0] == input_id
+        input_id = gets.chomp.to_i
+        id_found = false
+        
+        Contact.all.each do |contact_column|    
+            if contact_column[0] == input_id
+                Contact.drop_row input_id 
+                id_found = true
+            end
+            puts "Contact id #{input_id} has been deleted!\nBelow are your contact now!\n".cyan
+            All_messages.new.pause_and_clear_screen
+            back_to_menu_or_exit
         end
-      
-        puts "Contact id #{input_id} has been deleted!\nBelow are your contact now!\n".cyan
-        All_messages.new.pause_and_clear_screen
-        display_all_contacts_without_order
-        All_messages.new.pause_and_clear_screen
-        Menu.new.show_option
+
+        until id_found == true
+            puts "'#{input_id}' is not in your contact!\n".red 
+           return delete_a_contact
+         end
         
     end
 
 
     #delete both table and all contacts (OPTION 4)
     def crash_app
-        puts "Are you really sure you want crash you program?\nwarning: if you schoose 'yes', your app will crash!\n".upcase.red
+        puts "Are you really sure you want crash you program?\nwarning: if you choose 'yes', your app will crash!\n".upcase.red
         puts "Enter 'yes' or 'no'.".green
-        decive_input = gets.chomp
-        if decive_input =='y' || decive_input =='yes' || decive_input == 'YES'
+        desicive_input = gets.chomp
+        if desicive_input =='y' || desicive_input =='yes' || desicive_input == 'YES'
              Contact.drop_table
-             puts "Your Has Been Crashed!".cyan
-             sleep(2)
-             system('clear')
-             Menu.new.show_option
+             puts "Your App Has Been Crashed!".cyan
+             All_messages.new.pause_and_clear_screen
+             exit
         else
             Menu.new.show_option
         end
@@ -121,28 +128,28 @@ class Cli
                 puts "Re-enter/Enter A New Name".green
                 name = gets.chomp.capitalize
                 until !name.empty? 
-                    Cli.new.message_restriction
+                    All_messages.new.message_restriction
                     name = gets.chomp
                 end
                 
                 puts "Re-enter/Enter A Email".green
                 email = gets.chomp.downcase
                 until !email.empty? 
-                    Cli.new.message_restriction
+                    All_messages.new.message_restriction
                     email = gets.chomp
                 end
                
                 puts "Re-enter/EnterEnter A New Phone Number".green
                 phone_number = gets.chomp
                 until !phone_number.empty? 
-                    Cli.new.message_restriction
+                    All_messages.new.message_restriction
                     phone_number = gets.chomp
                 end
                 
                 puts "Re-enter/Enter A New Address".green 
                 address = gets.chomp.capitalize
                 until !address.empty? 
-                    Cli.new.message_restriction
+                    All_messages.new.message_restriction
                     address = gets.chomp
                 end
                 
@@ -150,12 +157,13 @@ class Cli
                 v.update
                 system('clear')
                 puts "Contact id #{modify_id} has been modified!\nBelow is your modified contact:1".cyan
-                puts "\nYour new contact is:\n\Full Name: #{v.name}, Phone: #{v.phone_number}, Address: #{v.address}, Email: #{v.email}".magenta
+                puts "\nYour new contact is:\n\Full Name: " +"#{v.name}".magenta + ", Phone: " + "#{v.phone_number}".magenta + ", Address: " + "#{v.address}".magenta+ ", Email: " +"#{v.email}".magenta
                 id_exist = true
             end
         end
-        if !id_exist
-           puts "'#{modify_id}' is not in your contact!".red 
+        until id_exist == true
+           puts "'#{modify_id}' is not in your contact!\n".red 
+           modify_a_contact
         end
         Menu.new.show_option
     end
@@ -163,33 +171,48 @@ class Cli
      #modify only phone number
      def alter_phone_number
         display_all_contacts_without_order
-        puts "Enter the id contact you want to modify".green
-       input_id = gets.chomp.to_i
+        puts "Please, Enter the contact id you want to modify!".green
+        input_id =  gets.to_i
+        id_exist = false
 
         Contact.all.each do |contact_column|
             if input_id == contact_column[0]
                 puts "Enter the new phone Number."
                 new_phone_number = gets.chomp.to_i
                 Contact.update_phone_number input_id, new_phone_number
+                All_messages.new.pause_and_clear_screen
                 puts "You Have Successfully Updated #{contact_column[1]}'s phone Number!".cyan
+                id_exist = true
             end
         end
+        until id_exist == true
+            puts "'#{input_id}' is not in your contact!\n".red 
+            alter_phone_number
+         end
         Menu.new.show_option
     end
-
+   
     #Modify only email address
     def alter_email
         display_all_contacts_without_order
-        puts "Enter the id contact you want to modify".green
-       input_id = gets.chomp.to_i
+        puts "Please, Enter the contact id you want to modify!".green
+        input_id =  gets.to_i
+        id_exist = false
 
         Contact.all.each do |contact_column|
             if input_id == contact_column[0]
                 puts "Enter the new email.".green
                 new_email = gets.chomp
                 Contact.update_email input_id, new_email
+                All_messages.new.pause_and_clear_screen
                 puts "You Have Succesffully Updated #{contact_column[1]}'s email.".cyan
+                id_exist = true
             end
+        end
+        until id_exist == true
+            puts "'#{input_id}' is not in your contact!\n".red 
+            All_messages.new.pause_and_clear_screen
+            alter_email
         end
         Menu.new.show_option
     end
@@ -199,20 +222,24 @@ class Cli
         system('clear')
         display_all_contacts_without_order
         puts "Enter the id contact you want to modify".green
-       input_id = gets.chomp.to_i
+        input_id = gets.chomp.to_i
+        id_exist = false
 
         Contact.all.each do |contact_column|
             if input_id == contact_column[0]
-                puts "Enter the new name."
+                puts "Enter the new name:"
                 new_name = gets.chomp
-                puts ""
                 Contact.update_name input_id, new_name
+                All_messages.new.pause_and_clear_screen
                 puts "You Have Succesffully Updated id #{contact_column[0]} In Your Contact.".cyan
-                puts ""
-                sleep(2)
+                id_exist = true
             end
         end
-        system('clear')
+        until id_exist == true
+            puts "'#{input_id}' is not in your contact!\n".red 
+            All_messages.new.pause_and_clear_screen
+           alter_name
+        end
         Menu.new.show_option
     end
 
@@ -220,15 +247,22 @@ class Cli
     def alter_address
         display_all_contacts_without_order
         puts "Enter the id contact you want to modidy".green
-       input_id = gets.chomp.to_i
+        input_id = gets.chomp.to_i
+        id_exist = false
 
         Contact.all.each do |contact_column|
             if input_id == contact_column[0]
                 puts "Enter the new address."
                 new_address = gets.chomp
                 Contact.update_phone_number input_id, new_address
+                All_messages.new.pause_and_clear_screen
                 puts "You Have Succesffully Updated #{contact_column[1]}'s address.".cyan
+                id_exist = true
             end
+        end
+        until id_exist == true
+            puts "'#{input_id}' is not in your contact!\n".red 
+            alter_address
         end
         Menu.new.show_option
     end
@@ -243,13 +277,12 @@ class Cli
         Contact.all.each do |contact_column|
             if input_name == contact_column[1]
                 puts "Full Name: #{contact_column[1]}, Phone Number: #{contact_column[2]}, Address: #{contact_column[3]}, Email: #{contact_column[4]}\n\n"
-                Menu.new.show_option
+                Cli.new.back_to_menu_or_exit
                 is_found = true
             end 
         end
         if !is_found
             puts "'#{input_name}' is not in your contact list!\n".red
-            # Menu.new.show_option
             sleep(2)
             find_a_contact
         end
@@ -289,7 +322,7 @@ class Cli
     end
 
     #return to menu
-    def back_to_menu
+    def back_to_menu_or_exit
         puts "\nPress 'b' key to go back to menu!\n Or 'q' to exit program!".bold.green
         press_key = gets.strip
         if press_key == "b"
@@ -301,9 +334,11 @@ class Cli
         else
             puts "Invalid key".red
             puts "Press 'b' key to go back to menu!\n Or 'q' to exit program!".bold.green
-            return back_to_menu
+            return back_to_menu_or_exit
         end
     end
 end
+
+ 
 
  
