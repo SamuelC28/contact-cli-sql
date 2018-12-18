@@ -58,8 +58,11 @@ class Cli
      def display_all_contacts_without_order
         sleep(1)
         system("clear") 
+        puts "|  ID |    FULL NAME     |  PHONE NUMBER  |        ADDRESS        |         EMAIL         |".cyan
+        puts "-" *95
         Contact.all.each do |contact|
-           puts "#{contact.join ", "}\n"
+           puts "|  #{contact.join "   |   "}   |\n"
+           puts "-" *95
         end
     end     
     

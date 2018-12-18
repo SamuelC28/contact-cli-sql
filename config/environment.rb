@@ -1,7 +1,7 @@
 require 'sqlite3'
 DB = {:conn => SQLite3::Database.new("db/contacts.db")}
-  
-require 'bundler'
+
+# require 'bundler'
 # Bundler.require
 # require "spec_helper.rb"
 # require "contact_spec.rb"

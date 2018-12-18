@@ -8,7 +8,7 @@ class All_messages
         puts ""
         Menu.new.show_option
     end
-   
+    
     def message_restriction
         puts "Enter a Valid Input To Continue!".red
         sleep(2)
