@@ -8,7 +8,7 @@ class All_messages
         puts ""
         Menu.new.show_option
     end
-    
+
     def message_restriction
         puts "Enter a Valid Input To Continue!".red
         sleep(2)
@@ -25,6 +25,7 @@ class All_messages
             else
                 puts "Entry '#{delete_option}' Is Not A valid Option!".red
                 All_messages.pause_and_clear_screen
+                # All_messages.new.message_restriction
                 delete_options
             end  
     end
