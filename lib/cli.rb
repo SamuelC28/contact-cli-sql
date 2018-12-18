@@ -44,12 +44,10 @@ class Cli
         end
 
         if Contact.create_table == true
-            Contact.create(name, phone_number, address, email)
-            # (name:name, phone_number:phone_number, address:address, email:email) 
+            Contact.create(name, phone_number, address, email) 
         else
             Contact.create_table
-            Contact.create(name, phone_number, address, email)
-            # (name:name, phone_number:phone_number, address:address, email:email) 
+            Contact.create(name, phone_number, address, email) 
         end
        
        puts "Contact Created successfull!".cyan
@@ -100,15 +98,14 @@ class Cli
 
     #delete both table and all contacts (OPTION 4)
     def crash_app
-        puts "Are you really sure you want crash you program?\nwarning: if you schoose 'yes', your app will crash!\n".upcase.red
+        puts "Are you really sure you want crash you program?\nwarning: if you choose 'yes', your app will crash!\n".upcase.red
         puts "Enter 'yes' or 'no'.".green
-        decive_input = gets.chomp
-        if decive_input =='y' || decive_input =='yes' || decive_input == 'YES'
+        desicive_input = gets.chomp
+        if desicive_input =='y' || desicive_input =='yes' || desicive_input == 'YES'
              Contact.drop_table
-             puts "Your Has Been Crashed!".cyan
-             sleep(2)
-             system('clear')
-             Menu.new.show_option
+             puts "Your App Has Been Crashed!".cyan
+             All_messages.new.pause_and_clear_screen
+             exit
         else
             Menu.new.show_option
         end

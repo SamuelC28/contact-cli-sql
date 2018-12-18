@@ -113,7 +113,7 @@ class Contact
     #alter email only
     def self.update_email id, email
       sql ="UPDATE contacts SET email = ? WHERE id = ?"
-       DB[:conn].execute(sql,email,id)
+      DB[:conn].execute(sql,email,id)
     end
 
     #alter address only

@@ -10,6 +10,7 @@ class Menu
             show_option
         when "2"
             if Contact.create_table == true || !Contact.all.empty?
+                Table.new.table_top_row
                 Cli.new.display_all_contacts_without_order
                 Cli.new.back_to_menu_or_exit
             else
