@@ -1,6 +1,4 @@
 class Cli
-    #welcome message
-    
     #Add contact in contacts table (OPTION 1)
     def add_contact
         system('clear')
@@ -26,7 +24,7 @@ class Cli
 
         puts "Enter E-mail:".green
         email = gets.chomp
-        until !email.empty? 
+        until email.end_with?(".com") && email.include?("@") || email.end_with?(".fr") && email.include?("@") || email.end_with?(".ht") && email.include?("@")
             puts "Email is mandatory.\nYou must enter a Email to continue!".red
             sleep(2)
             puts "Enter a Valid Email"
@@ -36,36 +34,37 @@ class Cli
        
         puts "Enter Phone Number:".green
         phone_number = gets.chomp
-        until !phone_number.empty? 
-            puts "Phone Number is mandatory.\nYou must enter a Phone Number to continue!".red
+        until !phone_number.empty? && (phone_number[/\d{11}/])
+            puts "Phone Number Is Mandatory.\nYou Must Enter At Least 11 Digit Phone Number To Continue!".red
             sleep(2)
             puts "Enter a Valid Phone Number"
             phone_number = gets.chomp
         end
 
+
         if Contact.create_table == true
-            Contact.create(name, phone_number, address, email) 
+            Contact.create(name, phone_number.insert(0, '(').insert(4, ')').insert(9, '-'), address, email) 
         else
             Contact.create_table
-            Contact.create(name, phone_number, address, email) 
+            Contact.create(name, phone_number.insert(0, '(').insert(4, ')').insert(9, '-'), address, email) 
         end
        
        puts "Contact Created successfull!".cyan
        All_messages.new.pause_and_clear_screen 
     end 
-   
+    
     #diplay all contacts added in contacts table (OPTION 2a)
      def display_all_contacts_without_order
         sleep(1)
         system("clear") 
-        puts "|  ID    |    FULL NAME    |   PHONE NUMBER   |        ADDRESS        |         EMAIL         |".cyan
-        puts "-" *95
+        puts "|  ID    |        FULL NAME      |     PHONE NUMBER    |        ADDRESS        |         EMAIL         |".cyan
+        puts "-" *100
         Contact.all.each do |contact|
            puts "|   #{contact.join "    |    "}  |\n"
-           puts "-" *95
+           puts "-" *100
         end
     end     
-    
+   
     #diplay all contacts added in contacts table (OPTION 2b)
     # def display_all_contacts_alpha_order 
     #     system("clear")
@@ -134,17 +133,22 @@ class Cli
                 
                 puts "Re-enter/Enter A Email".green
                 email = gets.chomp.downcase
-                until !email.empty? 
-                    All_messages.new.message_restriction
+                until email.end_with?(".com") && email.include?("@") || email.end_with?(".fr") && email.include?("@") || email.end_with?(".ht") && email.include?("@")
+                    puts "Email is mandatory.\nYou must enter a Email to continue!".red
+                    sleep(2)
+                    puts "Enter a Valid Email"
                     email = gets.chomp
                 end
                
                 puts "Re-enter/EnterEnter A New Phone Number".green
                 phone_number = gets.chomp
-                until !phone_number.empty? 
-                    All_messages.new.message_restriction
+                until !phone_number.empty? && (phone_number[/\d{11}/])
+                    puts "Phone Number is Mandatory.\nYou Must Enter A 11 Digit Phone Number To cCntinue!".red
+                    sleep(2)
+                    puts "Enter A Valid Phone Number"
                     phone_number = gets.chomp
                 end
+        
                 
                 puts "Re-enter/Enter A New Address".green 
                 address = gets.chomp.capitalize
@@ -153,7 +157,7 @@ class Cli
                     address = gets.chomp
                 end
                 
-                v = Contact.new contact_column.first, name, phone_number, address, email
+                v = Contact.new contact_column.first, name, phone_number.insert(0, '(').insert(4, ')').insert(9, '-'), address, email
                 v.update
                 system('clear')
                 puts "Contact id #{modify_id} has been modified!\nBelow is your modified contact:1".cyan
@@ -165,7 +169,7 @@ class Cli
            puts "'#{modify_id}' is not in your contact!\n".red 
            modify_a_contact
         end
-        Menu.new.show_option
+        back_to_menu_or_exit
     end
 
      #modify only phone number
@@ -174,11 +178,11 @@ class Cli
         puts "Please, Enter the contact id you want to modify!".green
         input_id =  gets.to_i
         id_exist = false
-
+        
         Contact.all.each do |contact_column|
             if input_id == contact_column[0]
                 puts "Enter the new phone Number."
-                new_phone_number = gets.chomp.to_i
+                new_phone_number = gets.chomp.insert(0, '(').insert(4, ')').insert(9, '-')
                 Contact.update_phone_number input_id, new_phone_number
                 All_messages.new.pause_and_clear_screen
                 puts "You Have Successfully Updated #{contact_column[1]}'s phone Number!".cyan
@@ -189,7 +193,7 @@ class Cli
             puts "'#{input_id}' is not in your contact!\n".red 
             alter_phone_number
          end
-        Menu.new.show_option
+        back_to_menu_or_exit
     end
    
     #Modify only email address
@@ -203,6 +207,12 @@ class Cli
             if input_id == contact_column[0]
                 puts "Enter the new email.".green
                 new_email = gets.chomp
+                until new_email.end_with?(".com") && new_email.include?("@") || new_email.end_with?(".fr") && new_email.include?("@") || new_email.end_with?(".ht") && new_email.include?("@")
+                    puts "Email is mandatory.\nYou must enter a Email to continue!".red
+                    sleep(2)
+                    puts "Enter a Valid Email"
+                    new_email = gets.chomp
+                end
                 Contact.update_email input_id, new_email
                 All_messages.new.pause_and_clear_screen
                 puts "You Have Succesffully Updated #{contact_column[1]}'s email.".cyan
@@ -240,7 +250,7 @@ class Cli
             All_messages.new.pause_and_clear_screen
            alter_name
         end
-        Menu.new.show_option
+        back_to_menu_or_exit
     end
 
     #modify only address
@@ -254,7 +264,7 @@ class Cli
             if input_id == contact_column[0]
                 puts "Enter the new address."
                 new_address = gets.chomp
-                Contact.update_phone_number input_id, new_address
+                Contact.update_address input_id, new_address
                 All_messages.new.pause_and_clear_screen
                 puts "You Have Succesffully Updated #{contact_column[1]}'s address.".cyan
                 id_exist = true
@@ -264,7 +274,7 @@ class Cli
             puts "'#{input_id}' is not in your contact!\n".red 
             alter_address
         end
-        Menu.new.show_option
+        back_to_menu_or_exit
     end
 
     #find a contact by typing a name (OPTION 6)
@@ -276,8 +286,8 @@ class Cli
 
         Contact.all.each do |contact_column|
             if input_name == contact_column[1]
-                puts "Full Name: #{contact_column[1]}, Phone Number: #{contact_column[2]}, Address: #{contact_column[3]}, Email: #{contact_column[4]}\n\n"
-                Cli.new.back_to_menu_or_exit
+                puts "Full Name: " + "#{contact_column[1]}".magenta + ", Phone Number: " + "#{contact_column[2]}".magenta + ", Address: " + "#{contact_column[3]}".magenta + ", Email: " + "#{contact_column[4]}\n\n".magenta
+                back_to_menu_or_exit
                 is_found = true
             end 
         end
@@ -321,7 +331,7 @@ class Cli
         end 
     end
 
-    #return to menu
+    # #return to menu
     def back_to_menu_or_exit
         puts "\nPress 'b' key to go back to menu!\n Or 'q' to exit program!".bold.green
         press_key = gets.strip

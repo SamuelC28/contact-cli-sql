@@ -45,7 +45,7 @@ end
       expect(DB[:conn].execute(table_check_sql)[0]).to eq(['contacts'])
     end
   end
-
+  
   describe ".drop_table" do
     it 'drops the contacts table from the database' do
       Contact.drop_table
@@ -118,6 +118,23 @@ end
     end
   end
 
+  describe ".delete_only_data" do
+    it 'drops all rows from the contacts table from the database' do
+      Contact.delete_only_data
+      table_check_sql = "SELECT tbl_name FROM sqlite_master WHERE type='table' AND tbl_name='id';"
+      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
+    end
+  end
+
+  describe ".drop_row id" do
+    it 'drops a row from the contacts table from the database' do
+      Contact.drop_row 'id'
+      table_check_sql = "SELECT tbl_name FROM sqlite_master WHERE type='table' AND tbl_name='id';"
+      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
+    end
+  end
+
+  
   describe '#update_email' do
     it 'updates the email that matches the id from the DB' do
       jane = Contact.new("Jane Smith", 87654321, "Fermathe 11", "jane@omail.fr")
@@ -125,8 +142,9 @@ end
       jane_id = jane.id
       jane.email = "jane@yahoo.fr"
       jane.update
-      jane_from_db = DB[:conn].execute("UPDATE contacts SET email = ? WHERE id = ?", jane_id)
+      jane_from_db = DB[:conn].execute("UPDATE contacts SET email = ? WHERE id = ?")#, jane_id)
       expect(jane_from_db.update_email).to eq("jane@yahoo.fr")
+      
       # josuer = Contact.new("Josuer", 39223309, "New York Cit, Street Ball", "josuer@gmail.com")
       # # expect(josuer_from_db.email).to eq("josuer@gmail.com")
       # josuer.save
@@ -137,7 +155,7 @@ end
       # josuer_from_db = Contact.update_email(josuer_id, josuer_email)
       # # expect(josuer_from_db.update_email).to eq(josuer_email)
       # expect(DB[:conn].execute("UPDATE contacts SET email = ? WHERE id = ?")).to eq([[1, "josuer@hotmail.com"]])
-    end
+   end
   
   end
 

@@ -1,4 +1,6 @@
 class All_messages
+
+    #welcome message to launch the program
     def welcome_msg
         system("clear")
         sleep(1)
@@ -9,11 +11,13 @@ class All_messages
         Menu.new.show_option
     end
 
+    #restriction message for wrong input
     def message_restriction
         puts "Enter a Valid Input To Continue!".red
         sleep(2)
     end 
     
+    #delete options
     def delete_options
         system('clear')
             puts "Choose An Option:\nA: Delete Only A Contact\nB: Delete The entire Contacts\n".cyan
@@ -29,7 +33,8 @@ class All_messages
                 delete_options
             end  
     end
-        
+
+    #modifi options    
     def modify_options
         system('clear')
         puts "Chooose An Option:\nA: Modify  A Whole Contact\nB: Modify Only Name\nC: Mofify only Phone Number\nD: Modify Only Address\nE: Modify Only Email".cyan
@@ -49,11 +54,13 @@ class All_messages
             return modify_options
         end
     end
-
+    
+    #pause and clear screen
     def pause_and_clear_screen
         sleep(1.50)
         system('clear')
     end    
+    
     
    
 end

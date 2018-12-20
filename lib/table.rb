@@ -6,7 +6,7 @@ class Table
     def initialize(table =nil)
         @table = table || Array.new(5, "                     ")
       end
-      
+
       def table_top_row
         puts "|      FULL NAME        |     PHONE NUMBER      |        ADDRESS        |         EMAIL         |"
         puts "-" *95
