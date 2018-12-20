@@ -57,21 +57,14 @@ class Cli
      def display_all_contacts_without_order
         sleep(1)
         system("clear") 
-        puts "|  ID    |        FULL NAME      |     PHONE NUMBER    |        ADDRESS        |         EMAIL         |".cyan
-        puts "-" *100
+        puts "  ID  |        FULL NAME      |     PHONE NUMBER    |        ADDRESS        |         EMAIL         |".cyan
+        .cyan
+        puts "=" *105
         Contact.all.each do |contact|
-           puts "|   #{contact.join "    |    "}  |\n"
-           puts "-" *100
+            puts "   #{contact.join "  |  "}  |\n"
+            puts "-" *105
         end
-    end     
-   
-    #diplay all contacts added in contacts table (OPTION 2b)
-    # def display_all_contacts_alpha_order 
-    #     system("clear")
-    #     Contact.alphabetic_order.each do |contact|
-    #        puts  "#{contact.join ", "}\n"
-    #     end 
-    # end     
+    end    
     
     # delete a choosen contact from contact table (OPTION 3)
     def delete_a_contact 
