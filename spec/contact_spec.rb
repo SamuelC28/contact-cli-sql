@@ -54,6 +54,22 @@ end
     end
   end
 
+  describe ".drop_row id" do
+    it 'drops one row from the contacts table from the database' do
+      Contact.drop_row 'id'
+      table_check_sql = "SELECT tbl_name FROM sqlite_master WHERE type='row' AND tbl_name='id';"
+      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
+    end
+  end
+
+  describe ".delete_only_data" do
+    it 'deletes only data from the contacts table from the database' do
+      Contact.delete_only_data
+      table_check_sql = "SELECT * FROM contacts;"
+      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
+    end
+  end
+
   describe "#save" do
     it 'saves an instance of the Contact class to the database and then sets the given contacts `id` attribute' do
       sarah = Contact.new("Sarah", 12345678, "Delams 45", "sarah@yahoo.com")
@@ -79,6 +95,15 @@ end
       expect(DB[:conn].execute("SELECT * FROM contacts")).to eq([[1, "Sally", 90785645, "Petion-ville", "sally@oal.com"]])
     end
   end
+
+  describe ".all" do
+    it 'displays all contacts in the table contacts' do
+      Contact.all
+      table_check_sql = "SELECT * FROM contacts;"
+      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
+    end
+  end
+
 
   describe '.new_from_db' do
     it 'creates an instance with corresponding attribute values' do
@@ -117,73 +142,4 @@ end
       expect(josuer_jr.id).to eq(josuer.id)
     end
   end
-
-  describe ".delete_only_data" do
-    it 'drops all rows from the contacts table from the database' do
-      Contact.delete_only_data
-      table_check_sql = "SELECT tbl_name FROM sqlite_master WHERE type='table' AND tbl_name='id';"
-      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
-    end
-  end
-
-  describe ".drop_row id" do
-    it 'drops a row from the contacts table from the database' do
-      Contact.drop_row 'id'
-      table_check_sql = "SELECT tbl_name FROM sqlite_master WHERE type='table' AND tbl_name='id';"
-      expect(DB[:conn].execute(table_check_sql)[0]).to eq(nil)
-    end
-  end
-
-  
-  describe '#update_email' do
-    it 'updates the email that matches the id from the DB' do
-      jane = Contact.new("Jane Smith", 87654321, "Fermathe 11", "jane@omail.fr")
-      jane.save
-      jane_id = jane.id
-      jane.email = "jane@yahoo.fr"
-      jane.update
-      jane_from_db = DB[:conn].execute("UPDATE contacts SET email = ? WHERE id = ?")#, jane_id)
-      expect(jane_from_db.update_email).to eq("jane@yahoo.fr")
-      
-      # josuer = Contact.new("Josuer", 39223309, "New York Cit, Street Ball", "josuer@gmail.com")
-      # # expect(josuer_from_db.email).to eq("josuer@gmail.com")
-      # josuer.save
-      # josuer_id = josuer.id
-      # # josuer.email = "josuer@gmail.com"
-      # josuer_email = "josuer@hotmail.com"
-      # josuer.update
-      # josuer_from_db = Contact.update_email(josuer_id, josuer_email)
-      # # expect(josuer_from_db.update_email).to eq(josuer_email)
-      # expect(DB[:conn].execute("UPDATE contacts SET email = ? WHERE id = ?")).to eq([[1, "josuer@hotmail.com"]])
-   end
-  
-  end
-
-  # describe '.find_by_id' do
-  #   it 'returns an instance of contact that matches the name from the DB' do
-  #   josuer = Contact.new("Josuer", 39223309, "New York Cit, Street Ball", "josuer@gmail.com")
-  #   josuer.save
-  #   josuer_id = josuer.id
-  #   josuer_from_db = Contact.find_by_id(josuer_id)
-  #   expect(josuer_from_db.name).to eq("Josuer")
-  #   expect(josuer_from_db.phone_number).to eq(39223309)
-  #   expect(josuer_from_db.address).to eq("New York Cit, Street Ball")
-  #   expect(josuer_from_db.email).to eq("josuer@gmail.com")
-  #   expect(josuer_from_db.id).to eq(josuer_id) 
-  #   end
-  # end
-
-  # describe '.find_by_name' do
-  #   it 'returns an instance of contact that matches the name from the DB' do
-  #   josuer = Contact.new("Josuer", 39223309, "New York Cit, Street Ball", "josuer@gmail.com")
-  #   josuer.save
-  #   josuer_id = josuer.id
-  #   josuer_from_db = Contact.find_by_name("Josuer")
-  #   expect(josuer_from_db.name).to eq("Josuer")
-  #   expect(josuer_from_db.phone_number).to eq(39223309)
-  #   expect(josuer_from_db.address).to eq("New York Cit, Street Ball")
-  #   expect(josuer_from_db.email).to eq("josuer@gmail.com")
-  #   expect(josuer_from_db.id).to eq(josuer_id) 
-  #   end
-  # end
 end

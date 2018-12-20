@@ -11,12 +11,11 @@ class Table
         puts "|      FULL NAME        |     PHONE NUMBER      |        ADDRESS        |         EMAIL         |"
         puts "-" *95
       end
+
       def table_cell
         puts "| #{@table[0]} | #{@table[1]} | #{@table[2]} | #{@table[3]} | #{@table[4]}"
         puts "-" *95
-        
       end
- 
 
       def print_it
 
@@ -27,11 +26,7 @@ class Table
                p[i] << k
                i +=1
             end
-          
-        #  end
-        end
-            
-           
+        end  
      end
 end
 

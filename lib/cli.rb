@@ -63,15 +63,7 @@ class Cli
            puts "|   #{contact.join "    |    "}  |\n"
            puts "-" *100
         end
-    end     
-   
-    #diplay all contacts added in contacts table (OPTION 2b)
-    # def display_all_contacts_alpha_order 
-    #     system("clear")
-    #     Contact.alphabetic_order.each do |contact|
-    #        puts  "#{contact.join ", "}\n"
-    #     end 
-    # end     
+    end       
     
     # delete a choosen contact from contact table (OPTION 3)
     def delete_a_contact 
