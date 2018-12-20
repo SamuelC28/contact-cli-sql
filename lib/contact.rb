@@ -72,10 +72,10 @@ class Contact
     end
 
     # displays all contacts in the table contacts in alpha order by
-    def self.alphabetic_order
-      sql = "SELECT * FROM contacts ORDER BY name ASC"
-      DB[:conn].execute(sql)
-    end
+    # def self.alphabetic_order
+    #   sql = "SELECT * FROM contacts ORDER BY name ASC"
+    #   DB[:conn].execute(sql)
+    # end
 
     def self.new_from_db row
       new(*row)
