@@ -27,7 +27,11 @@ class Table
                p[i] << k
                i +=1
             end
+<<<<<<< HEAD
         end    
+=======
+        end  
+>>>>>>> c19e89529f2f5f9339e49c424a1922c423bb50b6
      end
 end
 

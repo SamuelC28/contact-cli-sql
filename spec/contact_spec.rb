@@ -104,6 +104,10 @@ end
     end
   end
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c19e89529f2f5f9339e49c424a1922c423bb50b6
   describe '.new_from_db' do
     it 'creates an instance with corresponding attribute values' do
       row = [1, "Pat", 125555555, "Laboule 12", "pat@faceboo.com"]
@@ -141,5 +145,8 @@ end
       expect(josuer_jr.id).to eq(josuer.id)
     end
   end
+<<<<<<< HEAD
 
+=======
+>>>>>>> c19e89529f2f5f9339e49c424a1922c423bb50b6
 end

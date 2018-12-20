@@ -65,6 +65,9 @@ class Cli
             puts "-" *105
         end
     end    
+
+    end       
+
     
     # delete a choosen contact from contact table (OPTION 3)
     def delete_a_contact 
